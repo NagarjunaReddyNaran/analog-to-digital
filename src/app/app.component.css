@@ -1,0 +1,86 @@
+@import url('https://fonts.googleapis.com/css?family=Source+Code+Pro');
+
+.analog-clock {
+    position: relative;
+    margin: 100px auto 0;
+    width: 200px;
+    height: 200px;
+    background-color: #000000;
+    border-radius: 50%;
+}
+
+.hand {
+    position: absolute;
+    left: 50%;
+    width: 2px;
+    height: 100px;
+    /* transform: translate3d(-50%, 0, 0); */
+    transform-origin: 100% 100%;
+}
+
+.hour {
+    background-color: #3a3a3a;
+    width: 10px;
+    border-radius: 10px;
+}
+
+.minute {
+    background-color: #3a3a3a;
+    width: 6px;
+    border-radius: 10px;
+}
+
+.second {
+    background-color: #be0000;
+}
+
+.center-circle {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0);
+    width: 12px;
+    height: 12px;
+    background-color: #fff;
+    border-radius: 50%;
+}
+
+.digital-clock {
+    position: absolute;
+    top: 350px;
+    left: 50%;
+    transform: translate3d(-50%, 0, 0);
+    font-size: 2em;
+    font-family: 'Source Code Pro', monospace;
+    background: #000000;
+    color: red;
+    padding: 10px;
+}
+
+
+.edit-pencil {
+    cursor: pointer;
+    margin-left: 10px;
+}
+
+.edit-pencil i {
+    font-size: 18px;
+    color: #ffffff;
+}
+
+.edit-time {
+    background: black;
+    border: 2px solid black;
+    color: red;
+}
+
+.divider{
+    color: #ffffff;
+}
+
+.digital-clock input {
+    width: 45px;
+    text-align: center;
+    padding-left: 10px;
+    font-size: 20px;
+}
