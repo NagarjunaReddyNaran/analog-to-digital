@@ -6,15 +6,22 @@
     <div class="center-circle"></div>
   </div>
   <div class="digital-clock">
+    <div>
       <input [ngClass]="editTime ? 'edit-time': ''" [ngModel]="hour" (change)="onChange($event, 'h')" type="number" min="0" max="23" [readonly]="editTime"/> 
       <span class="divider" *ngIf="editTime">:</span>
       <input [ngClass]="editTime ? 'edit-time': ''" [(ngModel)]="minute" (change)="onChange($event, 'm')" type="number" min="0" max="59" [readonly]="editTime"/>
       <span class="divider" *ngIf="editTime">:</span>
       <input [ngClass]="editTime ? 'edit-time': ''" [(ngModel)]="second" (change)="onChange($event, 's')" type="number" min="0" max="59" [readonly]="editTime"/>
+    </div>
+    <div>
+        <button mat-raised-button color="primary" class="edit-btn" (click)="onTimeChange()">
+            <span class="edit-pencil" >
+                <i *ngIf="editTime"  class="fa fa-pencil" aria-hidden="true"></i>
+                <i *ngIf="!editTime" class="fa fa-check" aria-hidden="true"></i>
+            </span>
+        </button>
 
-    <span class="edit-pencil" (click)="onTimeChange()">
-        <i *ngIf="editTime"  class="fa fa-pencil" aria-hidden="true"></i>
-        <i *ngIf="!editTime" class="fa fa-times" aria-hidden="true"></i>
-    </span>
+        <button mat-raised-button (click)="reset()" color="primary">Reset <i class="fa fa-refresh" aria-hidden="true"></i></button>
+    </div>
   </div>
 </div>

@@ -3,7 +3,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { UserIdleService } from 'angular-user-idle';
 import { Subject } from 'rxjs';
-import { HOUR, MINUTE, SECOND } from './constants';
+import { EDIT, HOUR, MINUTE, SECOND } from './constants';
 import { TimeoutComponent } from './timeout/timeout.component';
 
 @Component({
@@ -17,23 +17,17 @@ export class AppComponent implements AfterViewInit {
 	secondHandStyle: any;
 	userActivity: any;
 	userInactive: Subject<any> = new Subject();
-
-	timerId: any;
-
-	date: Date = new Date();
 	hour: number = 0;
 	minute: number = 0;
 	second: number = 0;
 	editTime: boolean = true;
 	timeInterval: any;
-
 	time: string | undefined;
 
-	private exportTime = { hour: 7, minute: 15, meriden: 'PM', format: 24 };
 	constructor(private router: Router, public dialog: MatDialog) {
 		this.setTimeout();
 		this.userInactive.subscribe(() => {
-			console.log('user has been inactive for 1m');
+			console.log('user has been inactive for 3m');
 			this.openDialog();
 		});
 	}
@@ -45,6 +39,7 @@ export class AppComponent implements AfterViewInit {
 		}, 180000);
 	}
 
+  //Opens dialog, if user idle for 3mins
 	openDialog() {
 		const dialogRef = this.dialog.open(TimeoutComponent);
 
@@ -59,16 +54,20 @@ export class AppComponent implements AfterViewInit {
 		});
 	}
 
+  // Listener for mouse move event
 	@HostListener('window:mousemove')
 	private refreshUserState() {
 		clearTimeout(this.userActivity);
 		this.setTimeout();
 	}
+  // Listener for keys down event
 	@HostListener('window:keydown', [ '$event' ])
 	private handleKeyDown(event: KeyboardEvent) {
 		clearTimeout(this.userActivity);
 		this.setTimeout();
 	}
+
+  // Listener for mouse wheel event
 	@HostListener('document:wheel', [ '$event.target' ])
 	onScroll(): void {
 		clearTimeout(this.userActivity);
@@ -76,8 +75,12 @@ export class AppComponent implements AfterViewInit {
 	}
 
 	ngAfterViewInit(): void {
-		this.timerId = this.getTime();
+		this.getTime('');
 	}
+  reset(){
+    this.editTime = true;
+    this.getTime('');
+  }
 
 	animateAnalogClock() {
 		this.hourHandStyle = {
@@ -93,20 +96,22 @@ export class AppComponent implements AfterViewInit {
 		this.secondHandStyle = { transform: `translate3d(-50%, 0, 0) rotate(${this.second * 6}deg)` };
 	}
 
-	getTime() {
+	getTime(type: string) {
 		this.timeInterval = setInterval(() => {
-			let now = new Date();
-			let hours = ('0' + now.getHours()).slice(-2);
-			let minutes = ('0' + now.getMinutes()).slice(-2);
-			let seconds = ('0' + now.getSeconds()).slice(-2);
-			let str = hours + ':' + minutes + ':' + seconds;
+      let now = new Date();
+      if(type != EDIT){
+        let hours = ('0' + now.getHours()).slice(-2);
+        let minutes = ('0' + now.getMinutes()).slice(-2);
+        let seconds = ('0' + now.getSeconds()).slice(-2);
 
-			this.hour = Number(hours);
-			this.minute = Number(minutes);
-			this.second = Number(seconds);
-
+        this.hour = Number(hours);
+        this.minute = Number(minutes);
+        this.second = Number(seconds);
+      }
+      else{
+        now.setHours(this.hour, this.minute, this.second);
+      }
 			this.animateAnalogClock();
-			this.time = str;
 		}, 1000);
 		return this.timeInterval;
 	}
@@ -121,9 +126,7 @@ export class AppComponent implements AfterViewInit {
 		if (type == SECOND) {
 			this.second = event.target.value;
 		}
-		let str = this.hour + ':' + this.minute + ':' + this.second;
 		this.animateAnalogClock();
-		this.time = str;
 	}
 
 	onTimeChange() {
@@ -131,7 +134,7 @@ export class AppComponent implements AfterViewInit {
 		if (!this.editTime) {
 			clearInterval(this.timeInterval);
 		} else {
-			this.timerId = this.getTime();
+			this.getTime(EDIT);
 		}
 	}
 }
