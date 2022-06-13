@@ -22,7 +22,6 @@ export class AppComponent implements AfterViewInit {
 	second: number = 0;
 	editTime: boolean = true;
 	timeInterval: any;
-	time: string | undefined;
 
 	constructor(private router: Router, public dialog: MatDialog) {
 		this.setTimeout();
