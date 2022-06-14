@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, HostListener } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { UserIdleService } from 'angular-user-idle';
 import { Subject } from 'rxjs';
 import { EDIT, HOUR, MINUTE, SECOND } from './constants';
 import { TimeoutComponent } from './timeout/timeout.component';
